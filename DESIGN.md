@@ -54,3 +54,28 @@ Always use `MaterialTheme.typography` but respect the app's established font wei
 Before adding a brand new UI component, always check `ui/component/` to see if an existing one already implements our conventions.
 
 **Key Rule:** When working on UI, **look at the existing screens** (like the original Listen Together or Settings screens) and copy their specific visual style, spacing, and modifier chains. Do NOT refactor existing screens to match standard Material 3 unless explicitly requested. Our custom aesthetic takes precedence over M3 guidelines.
+
+---
+
+## 5. Accord Player Theme (switchable)
+
+An alternative Now-Playing look re-implemented from
+[Accord](https://github.com/FoedusProgramme/Accord) in Compose, selectable
+via Player Settings → Player style (`PlayerStyleKey`: `ECHO` / `ACCORD`).
+All code lives in `ui/player/accord/` and consumes Echo's `PlayerConnection`
+state; no playback logic is duplicated.
+
+Key visual specs (ported from Accord's `layout_full_player.xml` /
+`layout_preview_player.xml`):
+
+*   **Cover:** 1:1 square, 24dp horizontal margins, 28dp corners, 24dp
+    elevation, with a 170dp blurred glow (`BlendView` equivalent) behind it.
+*   **Title block:** 21sp semibold title + 21sp regular artist, 52dp below cover.
+*   **Slider:** full-width with 20dp margins, emphasize-on-drag feel
+    (Accord `OverlaySlider` resize behavior).
+*   **Controls:** 48dp bottom button row (Accord `OverlayButton`); AirPlay slot
+    maps to Echo Cast, local-only rows (format/volume) map to quality /
+    data-saver rows.
+*   **Mini player:** 4dp-corner cover, 16sp single-line title, 54dp
+    play/next buttons; mini → full morph driven by sheet `progress`
+    (Accord `FloatingPanelLayout` fraction model).

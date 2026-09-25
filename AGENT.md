@@ -197,6 +197,9 @@ ui/
   component/    Reusable Compose components (backdrop, floating tab bar, shimmer, etc.)
   menu/         Context/dropdown menus
   player/       Now-playing / player UI
+  player/accord/ Accord-style player theme (switchable via PlayerStyleKey) —
+                isolated re-implementation of Accord's player look in Compose;
+                reads Echo PlayerConnection state, never touches playback logic
   screens/      Top-level screens (Home, Search, Library, Album, Artist, Settings, etc.)
   theme/        Theme.kt, Type.kt, Font.kt, color extraction, dynamic color
   utils/        UI-specific utilities

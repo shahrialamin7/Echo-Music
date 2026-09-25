@@ -70,6 +70,13 @@ enum class SliderStyle {
   SLIM
 }
 
+val PlayerStyleKey = stringPreferencesKey("playerStyle")
+
+enum class PlayerStyle {
+  ECHO,
+  ACCORD
+}
+
 const val SYSTEM_DEFAULT = "SYSTEM_DEFAULT"
 val AppLanguageKey = stringPreferencesKey("appLanguage")
 val ContentLanguageKey = stringPreferencesKey("contentLanguage")
