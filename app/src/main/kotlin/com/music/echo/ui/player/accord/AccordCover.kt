@@ -28,13 +28,13 @@ import echo.music.iad1tya.LocalPlayerConnection
  * Ports Accord's full-player cover + BlendView: 1:1 artwork with
  * 28dp corners and 24dp elevation, with a blurred copy of the same
  * artwork glowing behind it. Artwork source is Echo's
- * MediaMetadata.artworkUri, so no playback logic is duplicated.
+ * Artwork source is Echo's MediaMetadata.thumbnailUrl, so no playback logic is duplicated.
  */
 @Composable
 fun AccordCover(modifier: Modifier = Modifier) {
   val playerConnection = LocalPlayerConnection.current ?: return
   val mediaMetadata by playerConnection.mediaMetadata.collectAsState()
-  val artworkUri = mediaMetadata?.artworkUri
+  val artworkUrl = mediaMetadata?.thumbnailUrl
 
   Box(
     modifier =
@@ -44,10 +44,10 @@ fun AccordCover(modifier: Modifier = Modifier) {
         .aspectRatio(1f),
     contentAlignment = Alignment.Center
   ) {
-    if (artworkUri != null) {
+    if (artworkUrl != null) {
       // Glow layer (Accord BlendView 170dp equivalent, full-bleed blur).
       AsyncImage(
-        model = artworkUri,
+        model = artworkUrl,
         contentDescription = null,
         modifier =
           Modifier.fillMaxSize()
@@ -57,7 +57,7 @@ fun AccordCover(modifier: Modifier = Modifier) {
       )
       // Foreground cover (Accord: 24dp elevation, full_cover_radius).
       AsyncImage(
-        model = artworkUri,
+        model = artworkUrl,
         contentDescription = null,
         modifier =
           Modifier.fillMaxSize()

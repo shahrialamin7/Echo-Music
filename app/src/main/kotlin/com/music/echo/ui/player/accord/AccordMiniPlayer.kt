@@ -38,6 +38,8 @@ fun AccordMiniPlayer(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
   val playerConnection = LocalPlayerConnection.current ?: return
   val mediaMetadata by playerConnection.mediaMetadata.collectAsState()
   val isPlaying by playerConnection.isPlaying.collectAsState()
+  val title = mediaMetadata?.title.orEmpty()
+  val artist = mediaMetadata?.artists?.joinToString { it.name }.orEmpty()
 
   Row(
     modifier = modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 4.dp),
@@ -55,14 +57,14 @@ fun AccordMiniPlayer(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
     Column(modifier = Modifier.weight(1f).padding(horizontal = 12.dp)) {
       Text(
-        text = mediaMetadata?.title?.toString().orEmpty(),
+        text = title,
         style = MaterialTheme.typography.titleMedium,
         fontSize = AccordDimens.MiniTitleFontSize,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
       )
       Text(
-        text = mediaMetadata?.artist?.toString().orEmpty(),
+        text = artist,
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         maxLines = 1,

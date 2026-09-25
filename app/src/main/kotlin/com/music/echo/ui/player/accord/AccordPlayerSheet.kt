@@ -32,6 +32,8 @@ import echo.music.iad1tya.ui.component.BottomSheetState
 fun AccordPlayerSheet(state: BottomSheetState, navController: NavController, pureBlack: Boolean) {
   val playerConnection = LocalPlayerConnection.current ?: return
   val mediaMetadata by playerConnection.mediaMetadata.collectAsState()
+  val title = mediaMetadata?.title.orEmpty()
+  val artist = mediaMetadata?.artists?.joinToString { it.name }.orEmpty()
 
   Box(modifier = Modifier.fillMaxSize()) {
     if (state.progress < AccordDimens.FullPlayerThreshold) {
@@ -49,12 +51,12 @@ fun AccordPlayerSheet(state: BottomSheetState, navController: NavController, pur
         AccordCover()
         Spacer(modifier = Modifier.height(AccordDimens.TitleMarginTop))
         Text(
-          text = mediaMetadata?.title?.toString().orEmpty(),
+          text = title,
           style = MaterialTheme.typography.headlineSmall,
           modifier = Modifier.padding(horizontal = AccordDimens.TitleMarginStart)
         )
         Text(
-          text = mediaMetadata?.artist?.toString().orEmpty(),
+          text = artist,
           style = MaterialTheme.typography.bodyLarge,
           color = MaterialTheme.colorScheme.onSurfaceVariant
         )
