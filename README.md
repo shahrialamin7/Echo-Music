@@ -263,6 +263,7 @@ Echo Music stands on the shoulders of several excellent open-source projects. Si
 | **[SimpMusic](https://github.com/maxrave-dev/SimpMusic)**                                                                 | Lyrics implementation reference                     |
 | **[Music Recognizer](https://github.com/aleksey-saenko/MusicRecognizer)**                                                 | Audio recognition (Echo Find)                       |
 | **[BravePipe](https://github.com/bravepipeproject/BravePipe)**                                                            | Decryption handling and backup playback engine      |
+| **[Accord](https://github.com/FoedusProgramme/Accord)**                                                                   | Accord-style player UI look, layout and animations (re-implemented in Compose) |
 
 ---
 

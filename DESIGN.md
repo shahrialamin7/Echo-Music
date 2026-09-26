@@ -54,3 +54,35 @@ Always use `MaterialTheme.typography` but respect the app's established font wei
 Before adding a brand new UI component, always check `ui/component/` to see if an existing one already implements our conventions.
 
 **Key Rule:** When working on UI, **look at the existing screens** (like the original Listen Together or Settings screens) and copy their specific visual style, spacing, and modifier chains. Do NOT refactor existing screens to match standard Material 3 unless explicitly requested. Our custom aesthetic takes precedence over M3 guidelines.
+
+---
+
+## 5. Accord Player Theme (switchable)
+
+An alternative Now-Playing look re-implemented from
+[Accord](https://github.com/FoedusProgramme/Accord) in Compose, selectable
+via Player Settings → Player style (`PlayerStyleKey`: `ECHO` / `ACCORD`).
+All code lives in `ui/player/accord/` and consumes Echo's `PlayerConnection`
+state; no playback logic is duplicated.
+
+Key visual specs (ported from Accord's `layout_full_player.xml` /
+`layout_preview_player.xml`):
+
+*   **Cover:** 1:1 square, 24dp horizontal margins, 14dp corners, 24dp
+    elevation, with a 170dp blurred glow (`BlendView` equivalent) behind it.
+*   **Title block:** 21sp Inter semibold title + 21sp Inter regular artist,
+    52dp below cover, 36dp start margin; 32dp like-star at the end.
+*   **Slider:** full-width with 20dp margins, 12.5sp Inter semibold
+    timestamps (Accord `OverlaySlider` resize behavior).
+*   **Transport:** Accord's huge row — 100dp play/pause (76dp icon),
+    94dp previous/next (64dp icons) from Accord's filled icon set.
+*   **Bottom toolbar (pinned, 48dp margin):** lyrics (quote) / collapse
+    chevron / queue (bulletin), 48dp buttons with 36dp Accord icons.
+    Filled variants mark the active page. Shuffle + repeat live in the
+    queue page header, like Accord.
+*   **Mini player:** 58dp rounded panel (16dp corners, 12dp side margins),
+    4dp-corner cover, 16sp Inter medium title, 54dp prop play/next.
+*   **Assets:** Accord vector icons + Inter fonts copied into
+    `res/drawable/accord_*` and `res/font/accord_*` (see README credit).
+    Mini → full morph driven by sheet `progress` (Accord
+    `FloatingPanelLayout` fraction model).

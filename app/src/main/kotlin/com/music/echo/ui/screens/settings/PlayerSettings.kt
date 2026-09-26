@@ -58,6 +58,8 @@ import echo.music.iad1tya.constants.PreloadLyricsEnabledKey
 import echo.music.iad1tya.constants.PreloadNextSongEnabledKey
 import echo.music.iad1tya.constants.PreloadNextSongLimitKey
 import echo.music.iad1tya.constants.PreventDuplicateTracksInQueueKey
+import echo.music.iad1tya.constants.PlayerStyle
+import echo.music.iad1tya.constants.PlayerStyleKey
 import echo.music.iad1tya.constants.RememberShuffleAndRepeatKey
 import echo.music.iad1tya.constants.ResumeOnBluetoothConnectKey
 import echo.music.iad1tya.constants.SeekExtraSeconds
@@ -87,6 +89,9 @@ fun PlayerSettings(
 
   val (audioQuality, onAudioQualityChange) =
     rememberEnumPreference(AudioQualityKey, defaultValue = AudioQuality.OPUS)
+
+  val (playerStyle, onPlayerStyleChange) =
+    rememberEnumPreference(PlayerStyleKey, defaultValue = PlayerStyle.ECHO)
 
   val (crossfadeEnabled, onCrossfadeEnabledChange) =
     rememberPreference(CrossfadeEnabledKey, defaultValue = false)
@@ -171,6 +176,7 @@ fun PlayerSettings(
     rememberPreference(HistoryDuration, defaultValue = 1f)
 
   var showAudioQualityDialog by remember { mutableStateOf(false) }
+  var showPlayerStyleDialog by remember { mutableStateOf(false) }
   var showDownloadQualityDialog by remember { mutableStateOf(false) }
   var showPlaybackEngineDialog by remember { mutableStateOf(false) }
 
@@ -206,8 +212,27 @@ fun PlayerSettings(
     )
   }
 
-  if (showDownloadQualityDialog) {
+  if (showPlayerStyleDialog) {
     EnumDialog(
+      onDismiss = { showPlayerStyleDialog = false },
+      onSelect = {
+        onPlayerStyleChange(it)
+        showPlayerStyleDialog = false
+      },
+      title = stringResource(R.string.player_style),
+      current = playerStyle,
+      values = listOf(PlayerStyle.ECHO, PlayerStyle.ACCORD),
+      valueText = {
+        when (it) {
+          PlayerStyle.ECHO -> "Echo"
+          PlayerStyle.ACCORD -> "Accord"
+        }
+      },
+      valueDescription = { "" }
+    )
+  }
+
+  if (showDownloadQualityDialog) {    EnumDialog(
       onDismiss = { showDownloadQualityDialog = false },
       onSelect = {
         onDownloadQualityChange(it)
@@ -373,6 +398,23 @@ fun PlayerSettings(
       title = stringResource(R.string.player),
       items =
         buildList {
+          add(
+            Material3SettingsItem(
+              isHighlighted = (highlightKey == stringResource(R.string.player_style)),
+              icon = painterResource(R.drawable.palette),
+              title = { Text(stringResource(R.string.player_style)) },
+              description = {
+                Text(
+                  when (playerStyle) {
+                    PlayerStyle.ECHO -> "Echo"
+                    PlayerStyle.ACCORD -> "Accord"
+                  }
+                )
+              },
+              onClick = { showPlayerStyleDialog = true }
+            )
+          )
+
           add(
             Material3SettingsItem(
               isHighlighted = (highlightKey == stringResource(R.string.audio_quality)),

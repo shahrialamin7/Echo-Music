@@ -286,6 +286,23 @@ fun BottomSheetPlayer(
 
   val (useNewPlayerDesign, onUseNewPlayerDesignChange) =
     rememberPreference(UseNewPlayerDesignKey, defaultValue = true)
+  // Accord theme branch (feature/accord-player scaffold): when the user
+  // picks the Accord player style, the whole sheet renders from
+  // ui/player/accord and upstream Echo player code below is skipped,
+  // keeping future upstream rebases conflict-free.
+  val playerStyle by
+    rememberEnumPreference(
+      key = echo.music.iad1tya.constants.PlayerStyleKey,
+      defaultValue = echo.music.iad1tya.constants.PlayerStyle.ECHO
+    )
+  if (playerStyle == echo.music.iad1tya.constants.PlayerStyle.ACCORD) {
+    echo.music.iad1tya.ui.player.accord.AccordPlayerSheet(
+      state = state,
+      navController = navController,
+      pureBlack = pureBlack
+    )
+    return
+  }
   val showCodecOnPlayer by
     rememberPreference(echo.music.iad1tya.constants.ShowCodecOnPlayerKey, false)
   val hidePlayerSlider by
