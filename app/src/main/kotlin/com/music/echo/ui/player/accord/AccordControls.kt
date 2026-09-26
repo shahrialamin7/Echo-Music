@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player
 import echo.music.iad1tya.LocalPlayerConnection
 import echo.music.iad1tya.R
+import echo.music.iad1tya.extensions.toggleRepeatMode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
