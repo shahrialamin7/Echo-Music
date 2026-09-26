@@ -1,22 +1,29 @@
 package echo.music.iad1tya.ui.player.accord
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import echo.music.iad1tya.R
 
 /**
  * Accord player visual tokens.
  *
- * Colors are derived from the host MaterialTheme colorScheme at the
- * call site (Accord itself uses overlay layers); this file only holds
- * shape / alpha constants so the theme stays dynamic like Echo.
+ * Inter comes from Accord's own font resources (copied as
+ * accord_inter_*); colors stay derived from the host MaterialTheme
+ * colorScheme so the theme follows Echo light/dark mode.
  */
 object AccordPlayerTheme {
-  val CoverShape = RoundedCornerShape(28.dp)
-  val MiniCoverShape = RoundedCornerShape(AccordDimens.MiniCoverCorner)
-  val CardShape = RoundedCornerShape(24.dp)
+  val Inter = FontFamily(
+    Font(R.font.accord_inter_regular, FontWeight.Normal),
+    Font(R.font.accord_inter_medium, FontWeight.Medium),
+    Font(R.font.accord_inter_semibold, FontWeight.SemiBold)
+  )
 
-  /** Translucent card fill, mirrors Echo's custom aesthetic. */
-  const val TranslucentAlpha = 0.3f
+  val CoverShape = RoundedCornerShape(AccordDimens.CoverCorner)
+  val MiniCoverShape = RoundedCornerShape(AccordDimens.MiniCoverCorner)
+  val MiniPanelShape = RoundedCornerShape(AccordDimens.MiniPanelCorner)
+  val ToolbarCoverShape = RoundedCornerShape(AccordDimens.ToolbarCoverCorner)
 
   /** Glow behind the cover. Disable on low-end devices if it janks. */
   const val GlowAlpha = 0.55f

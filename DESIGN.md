@@ -68,14 +68,21 @@ state; no playback logic is duplicated.
 Key visual specs (ported from Accord's `layout_full_player.xml` /
 `layout_preview_player.xml`):
 
-*   **Cover:** 1:1 square, 24dp horizontal margins, 28dp corners, 24dp
+*   **Cover:** 1:1 square, 24dp horizontal margins, 14dp corners, 24dp
     elevation, with a 170dp blurred glow (`BlendView` equivalent) behind it.
-*   **Title block:** 21sp semibold title + 21sp regular artist, 52dp below cover.
-*   **Slider:** full-width with 20dp margins, emphasize-on-drag feel
-    (Accord `OverlaySlider` resize behavior).
-*   **Controls:** 48dp bottom button row (Accord `OverlayButton`); AirPlay slot
-    maps to Echo Cast, local-only rows (format/volume) map to quality /
-    data-saver rows.
-*   **Mini player:** 4dp-corner cover, 16sp single-line title, 54dp
-    play/next buttons; mini → full morph driven by sheet `progress`
-    (Accord `FloatingPanelLayout` fraction model).
+*   **Title block:** 21sp Inter semibold title + 21sp Inter regular artist,
+    52dp below cover, 36dp start margin; 32dp like-star at the end.
+*   **Slider:** full-width with 20dp margins, 12.5sp Inter semibold
+    timestamps (Accord `OverlaySlider` resize behavior).
+*   **Transport:** Accord's huge row — 100dp play/pause (76dp icon),
+    94dp previous/next (64dp icons) from Accord's filled icon set.
+*   **Bottom toolbar (pinned, 48dp margin):** lyrics (quote) / collapse
+    chevron / queue (bulletin), 48dp buttons with 36dp Accord icons.
+    Filled variants mark the active page. Shuffle + repeat live in the
+    queue page header, like Accord.
+*   **Mini player:** 58dp rounded panel (16dp corners, 12dp side margins),
+    4dp-corner cover, 16sp Inter medium title, 54dp prop play/next.
+*   **Assets:** Accord vector icons + Inter fonts copied into
+    `res/drawable/accord_*` and `res/font/accord_*` (see README credit).
+    Mini → full morph driven by sheet `progress` (Accord
+    `FloatingPanelLayout` fraction model).

@@ -23,11 +23,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.Player
 import echo.music.iad1tya.LocalPlayerConnection
 import echo.music.iad1tya.R
-import echo.music.iad1tya.extensions.toggleRepeatMode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
@@ -77,12 +76,16 @@ fun AccordSlider(modifier: Modifier = Modifier) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
       Text(
         text = formatMillis(sliderPosition ?: position),
-        style = MaterialTheme.typography.bodySmall,
+        fontFamily = AccordPlayerTheme.Inter,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = AccordDimens.TimestampFontSize,
         color = MaterialTheme.colorScheme.onSurfaceVariant
       )
       Text(
         text = formatMillis(duration),
-        style = MaterialTheme.typography.bodySmall,
+        fontFamily = AccordPlayerTheme.Inter,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = AccordDimens.TimestampFontSize,
         color = MaterialTheme.colorScheme.onSurfaceVariant
       )
     }
@@ -97,82 +100,58 @@ private fun formatMillis(ms: Long): String {
 /**
  * Accord transport controls (functional).
  *
- * 48dp icon row in Accord's OverlayButton spirit: shuffle, previous,
- * large play/pause, next, repeat (OFF -> ALL -> ONE via Media3 helper).
- * State mirrors playerConnection flows, so no logic is duplicated.
+ * Ports Accord's huge transport row: 100dp main play/pause with 76dp
+ * icon flanked by 94dp previous/next with 64dp icons (StateAnimated /
+ * AnimatedVector feel approximated with a press scale). Shuffle and
+ * repeat live in the queue page header, like Accord.
  */
 @Composable
 fun AccordControls(modifier: Modifier = Modifier) {
   val playerConnection = LocalPlayerConnection.current ?: return
   val isPlaying by playerConnection.isPlaying.collectAsState()
-  val shuffleEnabled by playerConnection.shuffleModeEnabled.collectAsState()
-  val repeatMode by playerConnection.repeatMode.collectAsState()
 
   Row(
-    modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
-    horizontalArrangement = Arrangement.SpaceEvenly,
+    modifier = modifier.fillMaxWidth(),
+    horizontalArrangement = Arrangement.Center,
     verticalAlignment = Alignment.CenterVertically
   ) {
     IconButton(
-      onClick = { playerConnection.player.shuffleModeEnabled = !shuffleEnabled },
-      modifier = Modifier.size(AccordDimens.ControlButtonSize)
-    ) {
-      Icon(
-        painter = painterResource(if (shuffleEnabled) R.drawable.shuffle_on else R.drawable.shuffle),
-        contentDescription = null,
-        tint = if (shuffleEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.size(28.dp)
-      )
-    }
-
-    IconButton(
       onClick = { playerConnection.seekToPrevious() },
-      modifier = Modifier.size(56.dp)
+      modifier = Modifier.size(AccordDimens.SideControlSize)
     ) {
       Icon(
-        painter = painterResource(R.drawable.skip_previous),
+        painter = painterResource(R.drawable.accord_ic_skip_previous_filled),
         contentDescription = null,
-        modifier = Modifier.size(36.dp)
+        tint = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.size(AccordDimens.SideControlIconSize)
       )
     }
 
     IconButton(
       onClick = { playerConnection.togglePlayPause() },
-      modifier = Modifier.size(72.dp)
+      modifier = Modifier.size(AccordDimens.MainControlSize)
     ) {
       Icon(
-        painter = painterResource(if (isPlaying) R.drawable.pause else R.drawable.play),
+        painter =
+          painterResource(
+            if (isPlaying) R.drawable.accord_ic_pause_filled
+            else R.drawable.accord_ic_play_arrow_filled
+          ),
         contentDescription = null,
-        modifier = Modifier.size(44.dp)
+        tint = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.size(AccordDimens.MainControlIconSize)
       )
     }
 
     IconButton(
       onClick = { playerConnection.seekToNext() },
-      modifier = Modifier.size(56.dp)
+      modifier = Modifier.size(AccordDimens.SideControlSize)
     ) {
       Icon(
-        painter = painterResource(R.drawable.skip_next),
+        painter = painterResource(R.drawable.accord_ic_skip_next_filled),
         contentDescription = null,
-        modifier = Modifier.size(36.dp)
-      )
-    }
-
-    IconButton(
-      onClick = { playerConnection.player.toggleRepeatMode() },
-      modifier = Modifier.size(AccordDimens.ControlButtonSize)
-    ) {
-      Icon(
-        painter =
-          painterResource(
-            when (repeatMode) {
-              Player.REPEAT_MODE_ONE -> R.drawable.repeat_one
-              else -> R.drawable.repeat
-            }
-          ),
-        contentDescription = null,
-        tint = if (repeatMode != Player.REPEAT_MODE_OFF) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.size(28.dp)
+        tint = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.size(AccordDimens.SideControlIconSize)
       )
     }
   }
@@ -188,7 +167,7 @@ fun AccordLikeButton(modifier: Modifier = Modifier) {
   val currentSong by playerConnection.currentSong.collectAsState(initial = null)
   val liked = currentSong?.song?.liked == true
 
-  IconButton(onClick = { playerConnection.toggleLike() }, modifier = modifier.size(AccordDimens.ControlButtonSize)) {
+  IconButton(onClick = { playerConnection.toggleLike() }, modifier = modifier.size(AccordDimens.TitleEndButtonSize)) {
     Icon(
       painter = painterResource(if (liked) R.drawable.favorite else R.drawable.favorite_border),
       contentDescription = null,
